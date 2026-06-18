@@ -35,7 +35,14 @@ export default function GiaSiPage() {
     setLoading(true);
     try {
       const res = await fetch(`/api/prices?vertical=${vertical}`);
-      if (!res.ok) throw new Error('Không thể kết nối API lấy giá sỉ');
+      if (!res.ok) {
+        let errMsg = 'Không thể kết nối API lấy giá sỉ';
+        try {
+          const errData = await res.json();
+          if (errData.error) errMsg += ` (${errData.error})`;
+        } catch {}
+        throw new Error(errMsg);
+      }
       const data = await res.json();
       setProducts(data.products || []);
     } catch (err: any) {
