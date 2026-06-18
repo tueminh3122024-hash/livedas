@@ -1,0 +1,114 @@
+# =============================================
+# Supabase Local Config — livedas (SànSỉNôngSản)
+# Cấu hình cho môi trường phát triển cục bộ
+# =============================================
+
+project_id = "livedas"
+
+
+# =============================================
+# API Gateway (PostgREST + GoTrue)
+# =============================================
+[api]
+enabled = true
+port = 54341
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+# =============================================
+# Database (PostgreSQL)
+# =============================================
+[db]
+port = 54342
+shadow_port = 54340
+major_version = 15
+
+# =============================================
+# Supabase Studio (Dashboard)
+# =============================================
+[studio]
+enabled = true
+port = 54343
+api_url = "http://127.0.0.1"
+
+# =============================================
+# Realtime (WebSocket cho giá live)
+# =============================================
+[realtime]
+enabled = true
+# ip_version = "IPv6"
+# max_header_length = 4096
+
+# =============================================
+# Storage (lưu ảnh sản phẩm)
+# =============================================
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+# =============================================
+# Auth (xác thực người dùng)
+# =============================================
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["https://127.0.0.1:3000"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+minimum_password_length = 6
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+
+[auth.sms]
+enable_signup = false
+enable_confirmations = false
+
+# MFA chưa bật cho local dev
+[auth.mfa]
+max_enrolled_factors = 10
+
+[auth.mfa.totp]
+enroll_enabled = false
+verify_enabled = false
+
+[auth.mfa.phone]
+enroll_enabled = false
+verify_enabled = false
+
+# External auth providers (tắt hết cho local dev)
+[auth.external.apple]
+enabled = false
+
+[auth.external.google]
+enabled = false
+
+[auth.external.facebook]
+enabled = false
+
+# =============================================
+# Edge Functions
+# =============================================
+[edge_runtime]
+enabled = true
+policy = "oneshot"
+
+# =============================================
+# Analytics (local dev — tắt)
+# =============================================
+[analytics]
+enabled = false
+
+# =============================================
+# Inbucket (Mail)
+# =============================================
+[inbucket]
+enabled = true
+port = 54344
+
