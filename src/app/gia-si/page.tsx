@@ -250,10 +250,13 @@ export default function GiaSiPage() {
         ) : error ? (
           <div className="flex-1 flex flex-col items-center justify-center py-16 text-center">
             <span className="text-3xl mb-2">⚠️</span>
-            <h3 className="text-base font-bold text-white mb-1">Mất kết nối Supabase Local</h3>
+            <h3 className="text-base font-bold text-white mb-1">Không Thể Kết Nối Cơ Sở Dữ Liệu</h3>
             <p className="text-xs text-slate-400 max-w-sm">
-              Hãy kiểm tra xem docker container đã khởi chạy hoàn tất chưa bằng cách kiểm tra nút trạng thái ở Header.
+              {typeof window !== 'undefined' && (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1'))
+                ? 'Hãy kiểm tra xem docker container đã khởi chạy hoàn tất chưa bằng cách kiểm tra nút trạng thái ở Header.'
+                : 'Vui lòng kiểm tra lại cấu hình các biến môi trường (Environment Variables) trên Vercel của bạn.'}
             </p>
+            <p className="text-[10px] text-rose-500/80 mt-2 font-mono">Chi tiết: {error}</p>
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center py-20 text-center bg-slate-900/10 border border-dashed border-slate-900 rounded-3xl animate-fadeIn">

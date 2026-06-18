@@ -11,8 +11,15 @@ export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [role, setRole] = useState<string>('');
 
+  const [isLocalHost, setIsLocalHost] = useState(true);
+
   // Kiểm tra kết nối tới Supabase Local API
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname;
+      setIsLocalHost(host.includes('localhost') || host.includes('127.0.0.1'));
+    }
+
     fetch('/api/prices')
       .then(res => {
         if (res.ok) setDbStatus('connected');
@@ -125,7 +132,7 @@ export default function Header() {
               dbStatus === 'error' ? 'bg-rose-500 shadow-[0_0_8px_#f43f5e]' : 'bg-amber-500 animate-pulse'
             }`} />
             <span className="text-slate-400 hidden lg:inline">
-              {dbStatus === 'connected' ? 'Supabase Local' : 
+              {dbStatus === 'connected' ? (isLocalHost ? 'Supabase Local' : 'Supabase Cloud') : 
                dbStatus === 'error' ? 'Mất kết nối DB' : 'Đang kết nối...'}
             </span>
           </div>
