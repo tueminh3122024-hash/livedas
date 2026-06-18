@@ -8,8 +8,13 @@ export function getPool(): Pool {
       process.env.DATABASE_URL ||
       'postgresql://postgres:postgres@127.0.0.1:54342/postgres';
 
+    const isLocal =
+      connectionString.includes('127.0.0.1') ||
+      connectionString.includes('localhost');
+
     pool = new Pool({
       connectionString,
+      ssl: isLocal ? false : { rejectUnauthorized: false }
     });
 
     // Thiết lập client_encoding UTF8 để xử lý tiếng Việt chính xác
